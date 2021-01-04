@@ -1,0 +1,60 @@
+# 原理初探
+
+自动配置：
+
+
+
+pom.xml
+
+	* spring-boot-dependencies:核心依赖在父工程中!
+	* 我们在写或者引入一些SpringBoot依赖的时候，不需要指定版本，就因为有这些版本仓库
+
+
+
+启动器：
+
+* 启动器：说白了就是SpringBoot的启动场景
+* 比如spring-boot-starter-web,就会帮助我们自动导入web环境所有的依赖
+* springboot会将所有的功能场景，都变成一个个的启动器
+* 我们要使用什么功能，就只需要找倒对应的启动器就可以了，starter
+
+
+
+**主程序**
+
+````java
+@SpringBootApplication
+public class DemoApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(DemoApplication.class, args);
+	}
+
+}
+````
+
+
+
+* @SpringBootApplication:标注这个类是一个springboot的应用
+
+* 注解：
+
+  * ```java
+    @SpringBootConfiguration:Springboot的配置
+    	@Configuration:spring配置类
+        @Component:说明这也是spring的组件
+            
+    @EnableAutoConfiguration:自动配置
+        @AutoConfigurationPackage：自动配置包
+        	@Import(AutoConfigurationPackages.Registrar.class) 自动配置·包注册·
+        @Import(AutoConfigurationImportSelector.class):自动配置导入选择器
+       
+        
+    ```
+
+* 自动配置源码流程阅读
+
+结论：springBoot所有自动配置都是在启动的时候扫描并加载：spring.factories所有的自动配置类都在这面，但是不一定生效，要判断条件是否成立，只要导入了对应的star，就有对应的启动器了，有了启动器，我们自动装配就会生效，然后就配置成功!
+
+
+
